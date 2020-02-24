@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/139443863.svg)](https://zenodo.org/badge/latestdoi/139443863)
+
+
 # Macaque Cage Query Extension (MaCaQuE)
 
 MaCaQuE is a visuo-haptic interaction system for unrestrained rhesus monkeys that allows training the animals to goal-directed movement tasks within a cage. The system was developed for sensorimotor neuroscience and tested within the Reach Cage experimental environment:
