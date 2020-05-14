@@ -5,18 +5,22 @@
 
 MaCaQuE is a visuo-haptic interaction system for unrestrained rhesus monkeys that allows training the animals to goal-directed movement tasks within a cage. The system was developed for sensorimotor neuroscience and tested within the Reach Cage experimental environment:
 
-> Berger, M., and Gail A. The Reach Cage Environment for Wireless Neural Recordings during Structured Goal-Directed Behavior of Unrestrained Monkeys. bioRxiv, 2018. https://doi.org/10.1101/305334
+> Berger, M., Agha, N. S., & Gail, A. (2020). Wireless recording from unrestrained monkeys reveals motor goal encoding beyond immediate reach in frontoparietal cortex. eLife, 9(e51322). https://doi.org/10.7554/eLife.51322
 
 This repository contains schematics of the hardware (printed circuit boards and mechanical design of MaCaQuE Cue and Target boxes) and software code (firmware and test software). The software is tested on Mac and Windows.
 
-The presented hard- and software is customized for the research mentioned above and another (unpublished) research project involving additional push buttons and tactile (vibration) stimulus delivery. For other projects, a certain level of customization will be likely necessary. 
+The presented hard- and software is customized for the research mentioned above and a human psychophysics project involving additional push buttons and tactile (vibration) stimulus delivery: 
+
+> Berger, M., Neumann, P., & Gail, A. (2019). Peri-hand space expands beyond reach in the context of walk-and-reach movements. Scientific Reports, 9(1), 3013. https://doi.org/10.1038/s41598-019-39520-8
+
+For other projects, a certain level of customization will likely be necessary. 
 
 ## Brief Description
 MaCaQuE was designed to perform computerized training of rhesus monkeys within a large unconstrained workspace. The core elements are the cylindrical MaCaQuE Cue and Target boxes (MCT) which contain a touch-sensitive and illuminable front plate. Such MCTs can be placed at any position inside a monkey cage to serve as visual cues or movement targets. MCTs contain a proximity sensor (EC3016NPAPL by Carlo Gavazzi), a custom PCB with four WS2812 (Neopixel) and a custom PCB to communicate with the main board. Standard Ethernet cables are used for signal transmission. For positive reinforcement training, up to two peristaltic pumps can be connected (tested with: OEM M025 DC by Verderflex) that provide fluid reward.
 
 The current implementation can control up to 16 MCTs, however, it would be straightforward to increase this number since MCT in and output is serialized. The MCT-computer interface consists of three PCBs: connector, main and WS2812 board. The connector board has 16 RJ45 connectors and orders the signal lines. The main board is connected to the connector board and contains a Teensy 3.x (PJRC) with USB connection to a controlling computer. The Teensy, an Arduino-compatible microcontroller platform, controls the communication with the computer. In addition, the main board contains hardware for serial-parallel conversion (serial on Teensy side, parallel on MCT side), drivers for peristaltic pumps and a connector for a standard computer power supply (tested with: ENP-7025B by Jou Jye Computer GmbH). The WS2812 LEDs contain a shift-register like circuit to be connected in series. The WS2812 board is an additional PCB connected to the main board that has 16 WS2812 connected in series. This array of WS2812 is used for serial to parallel conversion of the WS2812 signal line that each MCT receives its individual WS2812 input. 
 
-Additional breakout pins are available for general-purpose use (GPIO). In the referenced manuscript, those GPIO pins are used for: 1) manual trigger of reward pump, 2) selection of which pump to be triggered manually and 3) synchronization with other recording equipment. In another study (unpublished) we used the GPIO pins for additional push-button input and controlling circuitry that delivers tactile stimuli. Firmware and test software contain code for each of the tasks.
+Additional breakout pins are available for general-purpose use (GPIO). In the eLife manuscript, those GPIO pins are used for: 1) manual trigger of reward pump, 2) selection of which pump to be triggered manually and 3) synchronization with other recording equipment. In the Scientific Reports manuscript we used the GPIO pins for additional push-button input and controlling circuitry that delivers tactile stimuli. Firmware and test software contain code for each of the tasks.
 
 The firmware is programmed using the Arduino software. It sends the state of the MCT touch sensors (touched or not touched) to the computer and executes commands received from the computer (e.g. set WS2812 or deliver reward).
 
